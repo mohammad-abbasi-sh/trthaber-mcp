@@ -29,6 +29,7 @@ breaking-news page and the category listings instead, matching the
 keyword in titles and summaries. Read-only; transport uses Chrome
 TLS impersonation; requests are spaced ~0.8s apart. Built by
 Mohammad Abbasi (mohammad-abbasi-sh) — Turkey MCP factory.\
+Built by Mohammad Abbasi (mohammad-abbasi-sh) — https://almanibama.ir · https://mabbasi.ir
 """
 
 
