@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import json
+from datetime import datetime, timezone
 
 from mcp.server.fastmcp import FastMCP
 
@@ -33,8 +34,24 @@ Built by Mohammad Abbasi (mohammad-abbasi-sh) — https://almanibama.ir · https
 """
 
 
+_SOURCE = "trthaber.com"
+_DISCLAIMER = "Unofficial read-only data from trthaber.com; verify on the site before acting on it."
+
+
+def _envelope() -> dict:
+    return {
+        "fetched_at": datetime.now(timezone.utc).isoformat(),
+        "source": _SOURCE,
+        "disclaimer": _DISCLAIMER,
+    }
+
+
+def _ok(payload: dict) -> str:
+    return json.dumps({**_envelope(), **payload}, ensure_ascii=False)
+
+
 def _err(e: Exception) -> str:
-    return json.dumps({"error": str(e)}, ensure_ascii=False)
+    return _ok({"error": str(e)})
 
 
 def _validate_limit(limit: int, lo: int = 1, hi: int = 30) -> int:
@@ -63,15 +80,12 @@ def trthaber_headlines(category: str = "gundem", limit: int = 10) -> str:
         rows = _N.parse_listing(html_text)
     except (ValueError, _http.TrthaberError) as e:
         return _err(e)
-    return json.dumps(
-        {
+    return _ok({
             "category": category,
             "category_name": _N.CATEGORIES[category],
             "count": min(limit, len(rows)),
             "headlines": rows[:limit],
-        },
-        ensure_ascii=False,
-    )
+        })
 
 
 @mcp.tool()
@@ -86,10 +100,7 @@ def trthaber_latest(limit: int = 10) -> str:
         rows = _N.parse_listing(html_text)
     except (ValueError, _http.TrthaberError) as e:
         return _err(e)
-    return json.dumps(
-        {"count": min(limit, len(rows)), "articles": rows[:limit]},
-        ensure_ascii=False,
-    )
+    return _ok({"count": min(limit, len(rows)), "articles": rows[:limit]})
 
 
 @mcp.tool()
@@ -107,7 +118,7 @@ def trthaber_get_article(article_url: str) -> str:
         data = _N.parse_article(html_text)
     except (ValueError, _http.TrthaberError) as e:
         return _err(e)
-    return json.dumps(data, ensure_ascii=False)
+    return _ok(data)
 
 
 @mcp.tool()
@@ -144,26 +155,30 @@ def trthaber_search_news(query: str, limit: int = 10) -> str:
             _scan(_http.fetch_category_html(category))
     except (ValueError, _http.TrthaberError) as e:
         return _err(e)
-    return json.dumps(
-        {"query": query.strip(),
-         "count": min(limit, len(rows)), "articles": rows[:limit]},
-        ensure_ascii=False,
-    )
+    return _ok({"query": query.strip(),
+         "count": min(limit, len(rows)), "articles": rows[:limit]})
 
 
 @mcp.tool()
 def trthaber_list_categories() -> str:
     """The 18 TRT Haber news categories (slug + Turkish display
     name), for use with trthaber_headlines. No arguments."""
-    return json.dumps(
-        {
+    return _ok({
             "categories": [
                 {"slug": slug, "name": name}
                 for slug, name in _N.CATEGORIES.items()
             ]
-        },
-        ensure_ascii=False,
-    )
+        })
+
+
+@mcp.tool()
+def trthaber_health() -> str:
+    """Check whether trthaber.com is reachable right now.
+
+    Returns status ok (HTTP 200), blocked (HTTP 403/429 — bot wall or
+    rate limit) or error, plus the HTTP status and the probed URL.
+    One polite request; it does not fetch any listings."""
+    return _ok(_http.health_check())
 
 
 def main() -> None:
