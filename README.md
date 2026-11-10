@@ -15,7 +15,7 @@ Add to your MCP client config (stdio):
   "mcpServers": {
     "trthaber": {
       "command": "uvx",
-      "args": ["trthaber-mcp==0.1.0"]
+      "args": ["trthaber-mcp==0.1.1"]
     }
   }
 }
@@ -49,9 +49,9 @@ trthaber.com serves its homepage, category pages (`/haber/<category>/`), article
 ## Install
 
 ```bash
-uvx trthaber-mcp==0.1.0        # run directly (needs uv)
+uvx trthaber-mcp==0.1.1        # run directly (needs uv)
 # or
-pip install trthaber-mcp==0.1.0
+pip install trthaber-mcp==0.1.1
 trthaber-mcp    # starts the MCP server on stdio
 ```
 
