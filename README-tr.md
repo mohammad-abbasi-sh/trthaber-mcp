@@ -15,7 +15,7 @@ MCP istemci yapılandırmanıza ekleyin (stdio):
   "mcpServers": {
     "trthaber": {
       "command": "uvx",
-      "args": ["trthaber-mcp==0.1.0"]
+      "args": ["trthaber-mcp==0.1.1"]
     }
   }
 }
@@ -40,9 +40,9 @@ trthaber.com ana sayfasını, kategori sayfalarını (`/haber/<kategori>/`), hab
 ## Kurulum
 
 ```bash
-uvx trthaber-mcp==0.1.0        # doğrudan çalıştır (uv gerekir)
+uvx trthaber-mcp==0.1.1        # doğrudan çalıştır (uv gerekir)
 # veya
-pip install trthaber-mcp==0.1.0
+pip install trthaber-mcp==0.1.1
 trthaber-mcp    # MCP sunucusunu stdio üzerinde başlatır
 ```
 
