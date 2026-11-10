@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "trthaber-mcp"
-version = "0.1.0"
+version = "0.1.1"
 description = "Unofficial read-only MCP server for trthaber.com (TRT Haber) news: headlines, breaking news, articles, search"
 readme = "README.md"
 license = { text = "MIT" }
