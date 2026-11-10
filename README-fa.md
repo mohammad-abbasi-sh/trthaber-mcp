@@ -15,7 +15,7 @@ mcp-name: io.github.mohammad-abbasi-sh/trthaber-mcp
   "mcpServers": {
     "trthaber": {
       "command": "uvx",
-      "args": ["trthaber-mcp"]
+      "args": ["trthaber-mcp==0.1.0"]
     }
   }
 }
@@ -40,9 +40,9 @@ trthaber.com صفحهٔ اصلی، صفحات دسته‌بندی (`/haber/<cate
 ## نصب
 
 ```bash
-uvx trthaber-mcp        # اجرای مستقیم (نیازمند uv)
+uvx trthaber-mcp==0.1.0        # اجرای مستقیم (نیازمند uv)
 # یا
-pip install trthaber-mcp
+pip install trthaber-mcp==0.1.0
 trthaber-mcp    # سرور MCP را روی stdio راه می‌اندازد
 ```
 
